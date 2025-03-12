@@ -26,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,6 +50,10 @@
             },
             {
               "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
               "Name": "ST:323948898:0:{81164725-9a96-4ece-a4cb-440d8fd285e5}"
             },
             {
@@ -60,7 +64,7 @@
               "RelativeDocumentMoniker": "PersonalDictionaryProject\\appsettings.json",
               "ToolTip": "D:\\Term8\\PRN231\\PersonalDictionaryProjectBE\\PersonalDictionaryProject\\appsettings.json",
               "RelativeToolTip": "PersonalDictionaryProject\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAADlAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-03-11T10:11:52.609Z",
               "EditorCaption": ""

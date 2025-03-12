@@ -109,5 +109,12 @@ namespace PersonalDictionaryProject.Controllers
 
             return Ok("User deleted successfully");
         }
+
+        [HttpGet("test")]
+        public async Task<IActionResult> TestCommit()
+        {
+            
+            return Ok();
+        }
     }
 }
