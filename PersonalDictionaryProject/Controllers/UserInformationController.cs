@@ -116,5 +116,29 @@ namespace PersonalDictionaryProject.Controllers
             
             return Ok();
         }
+
+        [HttpPost("register")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> CreateAdmin([FromBody] RegisterModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = new User
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                FullName = model.FullName
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            await _userManager.AddToRoleAsync(user, "Admin");
+
+            return Ok(new { message = "User registered successfully!" });
+        }
     }
 }
