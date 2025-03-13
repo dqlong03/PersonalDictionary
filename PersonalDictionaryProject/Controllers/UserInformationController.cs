@@ -6,6 +6,7 @@ using PersonalDictionaryProject.Dtos;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace PersonalDictionaryProject.Controllers
 {
@@ -40,7 +41,7 @@ namespace PersonalDictionaryProject.Controllers
             {
                 return NotFound("User not found.");
             }
-
+            var roles = await _userManager.GetRolesAsync(user);
             return Ok(new
             {
                 user.Id,
@@ -48,6 +49,7 @@ namespace PersonalDictionaryProject.Controllers
                 user.UserName,
                 user.Email,
                 user.PhoneNumber,
+                Roles = roles
             });
         }
 
@@ -99,7 +101,6 @@ namespace PersonalDictionaryProject.Controllers
                 return NotFound("User not found");
             }
 
-            // Cập nhật thông tin cơ bản
             user.FullName = model.FullName;
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber;
@@ -110,15 +111,10 @@ namespace PersonalDictionaryProject.Controllers
                 return BadRequest(updateResult.Errors);
             }
 
-            // Nếu có mật khẩu mới, thực hiện cập nhật
             if (!string.IsNullOrEmpty(model.Password))
             {
-                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var passwordChangeResult = await _userManager.ResetPasswordAsync(user, token, model.Password);
-                if (!passwordChangeResult.Succeeded)
-                {
-                    return BadRequest(passwordChangeResult.Errors);
-                }
+                var result = await _userManager.ChangePasswordAsync(user, model.Password, model.Password);
+                if (!result.Succeeded) return BadRequest(result.Errors);
             }
 
             return Ok("User information updated successfully");

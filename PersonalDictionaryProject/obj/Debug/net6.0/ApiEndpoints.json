@@ -43,6 +43,22 @@
   },
   {
     "ContainingType": "PersonalDictionaryProject.Controllers.UserInformationController",
+    "Method": "GetUserbyId",
+    "RelativePath": "api/UserInformation/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.UserInformationController",
     "Method": "DeleteUser",
     "RelativePath": "api/UserInformation/{id}",
     "HttpMethod": "DELETE",
@@ -101,7 +117,7 @@
   },
   {
     "ContainingType": "PersonalDictionaryProject.Controllers.UserInformationController",
-    "Method": "UpdateUserInfo",
+    "Method": "UpdateUser",
     "RelativePath": "api/UserInformation/update",
     "HttpMethod": "PUT",
     "IsController": true,
