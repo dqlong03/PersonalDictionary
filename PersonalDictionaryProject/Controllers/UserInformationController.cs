@@ -52,7 +52,7 @@ namespace PersonalDictionaryProject.Controllers
         }
 
         [HttpGet("all")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userManager.Users
@@ -68,7 +68,22 @@ namespace PersonalDictionaryProject.Controllers
 
             return Ok(users);
         }
-
+        [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetUserbyId(string id)
+        {
+            var users = await _userManager.Users.Where(u => u.Id == id)
+                .Select(u => new
+                {
+                    u.Id,
+                    u.FullName,
+                    u.UserName,
+                    u.Email,
+                    u.PhoneNumber
+                })
+                .ToListAsync();
+            return Ok(users);
+        }
 
         [HttpPut("update")]
         public async Task<IActionResult> UpdateUserInfo([FromBody] UpdateUserDTO model)
@@ -110,15 +125,9 @@ namespace PersonalDictionaryProject.Controllers
             return Ok("User deleted successfully");
         }
 
-        [HttpGet("test")]
-        public async Task<IActionResult> TestCommit()
-        {
-            
-            return Ok();
-        }
 
         [HttpPost("register")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateAdmin([FromBody] RegisterModel model)
         {
             if (!ModelState.IsValid)
