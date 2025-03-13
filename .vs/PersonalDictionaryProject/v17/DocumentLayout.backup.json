@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{93A01B03-68EE-499E-937D-2AA1790D0EC5}|PersonalDictionaryProject\\PersonalDictionaryProject.csproj|solutionrelative:personaldictionaryproject\\controllers\\userinformationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{93A01B03-68EE-499E-937D-2AA1790D0EC5}|PersonalDictionaryProject\\PersonalDictionaryProject.csproj|d:\\term8\\prn231\\personaldictionaryprojectbe\\personaldictionaryproject\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{93A01B03-68EE-499E-937D-2AA1790D0EC5}|PersonalDictionaryProject\\PersonalDictionaryProject.csproj|solutionrelative:personaldictionaryproject\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{93A01B03-68EE-499E-937D-2AA1790D0EC5}|PersonalDictionaryProject\\PersonalDictionaryProject.csproj|d:\\term8\\prn231\\personaldictionaryprojectbe\\personaldictionaryproject\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{93A01B03-68EE-499E-937D-2AA1790D0EC5}|PersonalDictionaryProject\\PersonalDictionaryProject.csproj|solutionrelative:personaldictionaryproject\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -17,10 +21,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{93A01B03-68EE-499E-937D-2AA1790D0EC5}|PersonalDictionaryProject\\PersonalDictionaryProject.csproj|d:\\term8\\prn231\\personaldictionaryprojectbe\\personaldictionaryproject\\models\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{93A01B03-68EE-499E-937D-2AA1790D0EC5}|PersonalDictionaryProject\\PersonalDictionaryProject.csproj|solutionrelative:personaldictionaryproject\\models\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{93A01B03-68EE-499E-937D-2AA1790D0EC5}|PersonalDictionaryProject\\PersonalDictionaryProject.csproj|d:\\term8\\prn231\\personaldictionaryprojectbe\\personaldictionaryproject\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{93A01B03-68EE-499E-937D-2AA1790D0EC5}|PersonalDictionaryProject\\PersonalDictionaryProject.csproj|solutionrelative:personaldictionaryproject\\controllers\\authenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -66,7 +66,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "D:\\Term8\\PRN231\\PersonalDictionaryProjectBE\\PersonalDictionaryProject\\Models\\AppDbContext.cs",
               "RelativeDocumentMoniker": "PersonalDictionaryProject\\Models\\AppDbContext.cs",
@@ -74,12 +74,11 @@
               "RelativeToolTip": "PersonalDictionaryProject\\Models\\AppDbContext.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-12T17:31:13.247Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-12T17:31:13.247Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\Term8\\PRN231\\PersonalDictionaryProjectBE\\PersonalDictionaryProject\\appsettings.json",
               "RelativeDocumentMoniker": "PersonalDictionaryProject\\appsettings.json",
@@ -87,12 +86,11 @@
               "RelativeToolTip": "PersonalDictionaryProject\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-03-11T10:11:52.609Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-11T10:11:52.609Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Term8\\PRN231\\PersonalDictionaryProjectBE\\PersonalDictionaryProject\\Program.cs",
               "RelativeDocumentMoniker": "PersonalDictionaryProject\\Program.cs",
@@ -100,8 +98,7 @@
               "RelativeToolTip": "PersonalDictionaryProject\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-10T09:49:49.921Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-10T09:49:49.921Z"
             },
             {
               "$type": "Document",
@@ -111,20 +108,20 @@
               "RelativeDocumentMoniker": "PersonalDictionaryProject\\Controllers\\UserInformationController.cs",
               "ToolTip": "D:\\Term8\\PRN231\\PersonalDictionaryProjectBE\\PersonalDictionaryProject\\Controllers\\UserInformationController.cs",
               "RelativeToolTip": "PersonalDictionaryProject\\Controllers\\UserInformationController.cs",
-              "ViewState": "AgIAAFsAAAAAAAAAAAAowGkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAgwG8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-10T08:38:04.857Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "AuthenticationController.cs",
               "DocumentMoniker": "D:\\Term8\\PRN231\\PersonalDictionaryProjectBE\\PersonalDictionaryProject\\Controllers\\AuthenticationController.cs",
               "RelativeDocumentMoniker": "PersonalDictionaryProject\\Controllers\\AuthenticationController.cs",
               "ToolTip": "D:\\Term8\\PRN231\\PersonalDictionaryProjectBE\\PersonalDictionaryProject\\Controllers\\AuthenticationController.cs",
               "RelativeToolTip": "PersonalDictionaryProject\\Controllers\\AuthenticationController.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAowDMAAAA/AAAAAAAAAA==",
+              "ViewState": "AgIAABQAAAAAAAAAAAAQwDAAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-10T08:38:04.297Z",
               "EditorCaption": ""

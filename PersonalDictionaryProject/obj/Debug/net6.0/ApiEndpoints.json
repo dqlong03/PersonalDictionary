@@ -85,6 +85,22 @@
   },
   {
     "ContainingType": "PersonalDictionaryProject.Controllers.UserInformationController",
+    "Method": "CreateAdmin",
+    "RelativePath": "api/UserInformation/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "PersonalDictionaryProject.Dtos.RegisterModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.UserInformationController",
     "Method": "UpdateUserInfo",
     "RelativePath": "api/UserInformation/update",
     "HttpMethod": "PUT",
