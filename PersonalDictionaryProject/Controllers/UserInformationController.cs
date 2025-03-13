@@ -86,20 +86,44 @@ namespace PersonalDictionaryProject.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> UpdateUserInfo([FromBody] UpdateUserDTO model)
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO model)
         {
-            var user = await _userManager.FindByIdAsync(model.Id);
-            if (user == null) return NotFound("User not found");
+            if (string.IsNullOrEmpty(model.Id))
+            {
+                return BadRequest("User ID is required");
+            }
 
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Cập nhật thông tin cơ bản
             user.FullName = model.FullName;
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber;
 
-            var result = await _userManager.UpdateAsync(user);
-            if (!result.Succeeded) return BadRequest(result.Errors);
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                return BadRequest(updateResult.Errors);
+            }
+
+            // Nếu có mật khẩu mới, thực hiện cập nhật
+            if (!string.IsNullOrEmpty(model.Password))
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var passwordChangeResult = await _userManager.ResetPasswordAsync(user, token, model.Password);
+                if (!passwordChangeResult.Succeeded)
+                {
+                    return BadRequest(passwordChangeResult.Errors);
+                }
+            }
 
             return Ok("User information updated successfully");
         }
+
 
         [HttpPut("change-password")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO model)
