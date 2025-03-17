@@ -34,6 +34,16 @@ namespace PersonalDictionaryProject.Controllers
             var words = await _context.Words.Where(w => w.UserId == userId).ToListAsync();
             return Ok(words);
         }
+        [HttpGet("admin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAdminWords()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            var words = await _context.Words.Where(w=> w.IsPublic).ToListAsync();
+            return Ok(words);
+        }
         [HttpGet]
         public async Task<IActionResult> GetWordsById(int Id)
         {
