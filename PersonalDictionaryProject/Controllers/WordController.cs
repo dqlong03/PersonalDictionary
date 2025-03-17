@@ -53,6 +53,17 @@ namespace PersonalDictionaryProject.Controllers
             if (word == null) return NotFound();
             return Ok(word);
         }
+        [HttpGet("admin")]
+        [Authorize(Roles = "Admin")]
+
+        public async Task<IActionResult> AdminGetWordsById(int Id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+            var word = await _context.Words.Where(w => w.Id == Id).ToListAsync();
+            if (word == null) return NotFound();
+            return Ok(word);
+        }
         // Thêm từ mới vào từ điển cá nhân
         [HttpPost]
         public async Task<IActionResult> AddWord([FromBody] WordDTO word)
