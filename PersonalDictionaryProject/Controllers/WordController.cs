@@ -53,7 +53,7 @@ namespace PersonalDictionaryProject.Controllers
             if (word == null) return NotFound();
             return Ok(word);
         }
-        [HttpGet("admin")]
+        [HttpGet("admin/get")]
         [Authorize(Roles = "Admin")]
 
         public async Task<IActionResult> AdminGetWordsById(int Id)
