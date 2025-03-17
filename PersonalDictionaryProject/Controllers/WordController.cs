@@ -75,12 +75,61 @@ namespace PersonalDictionaryProject.Controllers
 
             return CreatedAtAction(nameof(GetUserWords), new { id = newWord.Id }, word);
         }
+        [HttpPost("admin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AdminAddWord([FromBody] WordDTO word)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+            Word newWord = new Word
+            {
+                Id = 0,
+                WordText = word.WordText,
+                Definition = word.Definition,
+                Example = word.Example,
+                Language = word.Language,
+                UserId = userId,
+                IsPublic = true,
+                IsApproved = true
+            };
+            _context.Words.Add(newWord);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetUserWords), new { id = newWord.Id }, word);
+        }
         [HttpGet("search")]
         public async Task<IActionResult> SearchWords([FromQuery] string? query, [FromQuery] string? status)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
             var words = _context.Words.Where(w => w.UserId == userId).AsQueryable();
+
+            if (!string.IsNullOrEmpty(query))
+            {
+                words = words.Where(w => w.WordText.Contains(query) || w.Definition.Contains(query));
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                words = status switch
+                {
+                    "public" => words.Where(w => w.IsPublic && w.IsApproved),
+                    "pending" => words.Where(w => w.IsPublic && !w.IsApproved),
+                    "private" => words.Where(w => !w.IsPublic && !w.IsApproved),
+                    _ => words
+                };
+            }
+
+            return Ok(await words.ToListAsync());
+        }
+        [HttpGet("searchAdmin")]
+        [Authorize(Roles = "Admin")]
+
+        public async Task<IActionResult> SearchAdminWords([FromQuery] string? query, [FromQuery] string? status)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+            var words = _context.Words.AsQueryable();
 
             if (!string.IsNullOrEmpty(query))
             {
@@ -111,12 +160,29 @@ namespace PersonalDictionaryProject.Controllers
             word.Definition = model.Definition;
             word.Example = model.Example;
             word.Language = model.Language;
-            word.IsPublic = model.IsPublic;
-            word.IsApproved = false;
+            word.IsPublic = true;
+            word.IsApproved = model.IsPublic;
             await _context.SaveChangesAsync();
             return Ok("Word submitted for approval");
         }
+        [HttpPut("uploadAdmin")]
+        [Authorize(Roles = "Admin")]
 
+        public async Task<IActionResult> AdminUploadWord([FromBody] WordDTO model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var word = await _context.Words.FirstOrDefaultAsync(w => w.Id == model.Id && w.UserId == userId);
+
+            if (word == null) return NotFound();
+            word.WordText = model.WordText;
+            word.Definition = model.Definition;
+            word.Example = model.Example;
+            word.Language = model.Language;
+            word.IsPublic = true;
+            word.IsApproved = true;
+            await _context.SaveChangesAsync();
+            return Ok("Word submitted for approval");
+        }
         // Admin duyệt từ
         [HttpPut("approve/{id}")]
         [Authorize(Roles = "Admin")]
