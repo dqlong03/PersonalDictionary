@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PersonalDictionaryProject.Models;
@@ -15,11 +15,13 @@ namespace PersonalDictionaryProject.Controllers
     [Authorize]
     public class UserInformationController : ControllerBase
     {
+        private readonly AppDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public UserInformationController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public UserInformationController(AppDbContext context, UserManager<User> userManager, SignInManager<User> signInManager)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -27,10 +29,7 @@ namespace PersonalDictionaryProject.Controllers
         public async Task<IActionResult> GetUserByToken()
         {
             var token = Request.Headers["Authorization"].ToString();
-            Console.WriteLine($"Received Token: {token}");
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            Console.WriteLine($"Extracted userId: {userId}");
-
             if (string.IsNullOrEmpty(userId))
             {
                 return Unauthorized("User ID not found in token.");
@@ -67,6 +66,42 @@ namespace PersonalDictionaryProject.Controllers
                     u.PhoneNumber
                 })
                 .ToListAsync();
+
+            return Ok(users);
+        }
+        [HttpGet("search")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SearchUsers([FromQuery] string? query, [FromQuery] string? role)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+            var users = _context.Users
+                .Select(u => new
+                {
+                    u.Id,
+                    u.FullName,
+                    u.UserName,
+                    u.Email,
+                    u.PhoneNumber,
+                    Roles = _context.UserRoles
+                    .Where(ur => ur.UserId == u.Id)
+                    .Join(_context.Roles, ur => ur.RoleId, r => r.Id, (ur, r) => r.Name)
+                    .ToList()
+                }).AsQueryable();
+
+            if (!string.IsNullOrEmpty(query))
+            {
+                users = users.Where(u => u.FullName.Contains(query) || u.UserName.Contains(query) || u.PhoneNumber.Contains(query) || u.Email.Contains(query));
+            }
+            if (!string.IsNullOrEmpty(role))
+            {
+                users = role switch
+                {
+                    "admin" => users.Where(u => u.Roles.Contains("Admin")),
+                    "user" => users.Where(u => u.Roles.Contains("User")),
+                    _ => users
+                };
+            }
 
             return Ok(users);
         }
