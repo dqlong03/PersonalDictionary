@@ -158,6 +158,7 @@ namespace PersonalDictionaryProject.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
             var words = _context.Words.Where(w => w.UserId == userId).AsQueryable();
 
             if (!string.IsNullOrEmpty(query))
@@ -165,8 +166,16 @@ namespace PersonalDictionaryProject.Controllers
                 words = words.Where(w => w.WordText.Equals(query));
             }
 
-            return Ok(await words.ToListAsync());
+            var result = await words.ToListAsync();
+
+            if (result.Count == 0)
+            {
+                return NotFound("No words found for the given query.");
+            }
+
+            return Ok(result);
         }
+
         [HttpGet("searchAdmin")]
         [Authorize(Roles = "Admin")]
 
