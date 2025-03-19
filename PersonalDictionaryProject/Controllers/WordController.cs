@@ -159,7 +159,7 @@ namespace PersonalDictionaryProject.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
-            var words = _context.Words.Where(w => w.UserId == userId).AsQueryable();
+            var words = _context.Words.Where(w => w.IsPublic && w.IsApproved).AsQueryable();
 
             if (!string.IsNullOrEmpty(query))
             {
