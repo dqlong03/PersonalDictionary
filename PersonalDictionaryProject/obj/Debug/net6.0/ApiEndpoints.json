@@ -117,6 +117,27 @@
   },
   {
     "ContainingType": "PersonalDictionaryProject.Controllers.UserInformationController",
+    "Method": "SearchUsers",
+    "RelativePath": "api/UserInformation/search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.UserInformationController",
     "Method": "UpdateUser",
     "RelativePath": "api/UserInformation/update",
     "HttpMethod": "PUT",
@@ -129,6 +150,196 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
+    "Method": "GetWordsById",
+    "RelativePath": "api/Word",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
+    "Method": "AddWord",
+    "RelativePath": "api/Word",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "word",
+        "Type": "PersonalDictionaryProject.Dtos.WordDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
+    "Method": "AddWordPrivate",
+    "RelativePath": "api/Word/addPrivateWord",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "wordId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
+    "Method": "GetAdminWords",
+    "RelativePath": "api/Word/admin",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
+    "Method": "AdminAddWord",
+    "RelativePath": "api/Word/admin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "word",
+        "Type": "PersonalDictionaryProject.Dtos.WordDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
+    "Method": "AdminGetWordsById",
+    "RelativePath": "api/Word/admin/get",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
+    "Method": "SearchWords",
+    "RelativePath": "api/Word/search",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
+    "Method": "SearchAdminWords",
+    "RelativePath": "api/Word/searchAdmin",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
+    "Method": "SearchWord",
+    "RelativePath": "api/Word/searchOne",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "query",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
+    "Method": "UploadWord",
+    "RelativePath": "api/Word/upload",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "PersonalDictionaryProject.Dtos.WordDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
+    "Method": "AdminUploadWord",
+    "RelativePath": "api/Word/uploadAdmin",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "PersonalDictionaryProject.Dtos.WordDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
+    "Method": "GetUserWords",
+    "RelativePath": "api/Word/user",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]

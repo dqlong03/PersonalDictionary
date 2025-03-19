@@ -2658,11 +2658,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Term8\\PRN231\\PersonalDictionaryProjectBE\\PersonalDictionaryProject\\PersonalDictionaryProject.csproj",
+      "projectUniqueName": "D:\\Term8\\PRN231\\PersonalDictionaryProjectBE\\PersonalDictionary\\PersonalDictionaryProject\\PersonalDictionaryProject.csproj",
       "projectName": "PersonalDictionaryProject",
-      "projectPath": "D:\\Term8\\PRN231\\PersonalDictionaryProjectBE\\PersonalDictionaryProject\\PersonalDictionaryProject.csproj",
+      "projectPath": "D:\\Term8\\PRN231\\PersonalDictionaryProjectBE\\PersonalDictionary\\PersonalDictionaryProject\\PersonalDictionaryProject.csproj",
       "packagesPath": "C:\\Users\\quang\\.nuget\\packages\\",
-      "outputPath": "D:\\Term8\\PRN231\\PersonalDictionaryProjectBE\\PersonalDictionaryProject\\obj\\",
+      "outputPath": "D:\\Term8\\PRN231\\PersonalDictionaryProjectBE\\PersonalDictionary\\PersonalDictionaryProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\quang\\AppData\\Roaming\\NuGet\\NuGet.Config",
