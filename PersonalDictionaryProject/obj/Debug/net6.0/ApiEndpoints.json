@@ -186,6 +186,22 @@
   },
   {
     "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
+    "Method": "DeleteWord",
+    "RelativePath": "api/Word",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
     "Method": "AddWordPrivate",
     "RelativePath": "api/Word/addPrivateWord",
     "HttpMethod": "POST",
@@ -238,6 +254,22 @@
         "Name": "Id",
         "Type": "System.Int32",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PersonalDictionaryProject.Controllers.WordController",
+    "Method": "AdminDeniedWord",
+    "RelativePath": "api/Word/deniedAdmin",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "PersonalDictionaryProject.Dtos.WordDTO",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

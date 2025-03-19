@@ -23,7 +23,6 @@ namespace PersonalDictionaryProject.Controllers
             _context = context;
             _userManager = userManager;
         }
-        //test pull
         // Lấy danh sách từ của người dùng (private)
         [HttpGet("user")]
         public async Task<IActionResult> GetUserWords()
@@ -68,6 +67,10 @@ namespace PersonalDictionaryProject.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
+            if (word.Example.Length == 0 || word.Definition.Length == 0 || word.WordText.Length == 0 || word.Language.Length == 0)
+            {
+                return BadRequest("Please fill in all fields");
+            }
             Word newWord = new Word
             {
                 Id = 0,
@@ -112,6 +115,10 @@ namespace PersonalDictionaryProject.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
+            if (word.Example.Length == 0|| word.Definition.Length == 0 || word.WordText.Length == 0 || word.Language.Length == 0)
+            {
+                return BadRequest("Please fill in all fields");
+            }
             Word newWord = new Word
             {
                 Id = 0,
@@ -221,7 +228,6 @@ namespace PersonalDictionaryProject.Controllers
         }
         [HttpPut("uploadAdmin")]
         [Authorize(Roles = "Admin")]
-
         public async Task<IActionResult> AdminUploadWord([FromBody] WordDTO model)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -233,9 +239,48 @@ namespace PersonalDictionaryProject.Controllers
             word.Example = model.Example;
             word.Language = model.Language;
             word.IsPublic = true;
-            word.IsApproved = model.IsPublic;
+            word.IsApproved = true;
             await _context.SaveChangesAsync();
             return Ok("Word submitted for approval");
+        }
+        [HttpPut("deniedAdmin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AdminDeniedWord([FromBody] WordDTO model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var word = await _context.Words.FirstOrDefaultAsync(w => w.Id == model.Id && w.UserId == userId);
+
+            if (word == null) return NotFound();
+            word.WordText = model.WordText;
+            word.Definition = model.Definition;
+            word.Example = model.Example;
+            word.Language = model.Language;
+            word.IsPublic = false;
+            word.IsApproved = false;
+            await _context.SaveChangesAsync();
+            return Ok("Word submitted for approval");
+        }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteWord([FromBody]int Id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var word = await _context.Words.FirstOrDefaultAsync(w => w.Id == Id && w.UserId == userId);
+            if (word == null) return NotFound();
+            _context.Words.Remove(word);
+            await _context.SaveChangesAsync();
+            return Ok("Word deleted");
+        }
+
+        [HttpDelete("admin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AdminDeleteWord([FromBody] int Id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var word = await _context.Words.FirstOrDefaultAsync(w => w.Id == Id && w.UserId == userId);
+            if (word == null) return NotFound();
+            _context.Words.Remove(word);
+            await _context.SaveChangesAsync();
+            return Ok("Word deleted");
         }
     }
 }
