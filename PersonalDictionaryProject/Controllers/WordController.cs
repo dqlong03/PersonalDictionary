@@ -23,7 +23,6 @@ namespace PersonalDictionaryProject.Controllers
             _context = context;
             _userManager = userManager;
         }
-        //test pull
         // Lấy danh sách từ của người dùng (private)
         [HttpGet("user")]
         public async Task<IActionResult> GetUserWords()
@@ -271,6 +270,7 @@ namespace PersonalDictionaryProject.Controllers
             await _context.SaveChangesAsync();
             return Ok("Word deleted");
         }
+
         [HttpDelete("admin")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AdminDeleteWord([FromBody] int Id)
