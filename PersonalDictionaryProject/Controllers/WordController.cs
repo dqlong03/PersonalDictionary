@@ -23,7 +23,7 @@ namespace PersonalDictionaryProject.Controllers
             _context = context;
             _userManager = userManager;
         }
-
+        //test pull
         // Lấy danh sách từ của người dùng (private)
         [HttpGet("user")]
         public async Task<IActionResult> GetUserWords()
