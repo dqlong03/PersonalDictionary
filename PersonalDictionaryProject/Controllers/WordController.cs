@@ -88,11 +88,11 @@ namespace PersonalDictionaryProject.Controllers
             return CreatedAtAction(nameof(GetUserWords), new { id = newWord.Id }, word);
         }
         [HttpPost("addPrivateWord")]
-        public async Task<IActionResult> AddWordPrivate(string wordId)
+        public async Task<IActionResult> AddWordPrivate([FromBody] int wordId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
-            Word word = await _context.Words.FirstOrDefaultAsync(w => w.Id == int.Parse(wordId));
+            Word word = await _context.Words.FirstOrDefaultAsync(w => w.Id == wordId);
             var newWord = new Word
             {
                 Id = 0,
