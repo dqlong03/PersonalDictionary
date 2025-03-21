@@ -148,8 +148,10 @@ namespace PersonalDictionaryProject.Controllers
 
             if (!string.IsNullOrEmpty(model.Password))
             {
-                var result = await _userManager.ChangePasswordAsync(user, model.Password, model.Password);
+                user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.Password);
+                var result = await _userManager.UpdateAsync(user);
                 if (!result.Succeeded) return BadRequest(result.Errors);
+
             }
 
             return Ok("User information updated successfully");
