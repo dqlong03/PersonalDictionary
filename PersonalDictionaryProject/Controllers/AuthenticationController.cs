@@ -5,7 +5,10 @@ using Microsoft.IdentityModel.Tokens;
 using PersonalDictionaryProject.Dtos;
 using PersonalDictionaryProject.Models;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mail;
+using System.Net;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace PersonalDictionaryProject.Controllers
@@ -14,12 +17,14 @@ namespace PersonalDictionaryProject.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
+        private readonly AppDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
 
-        public AuthenticationController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
+        public AuthenticationController(AppDbContext context, UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
@@ -39,6 +44,34 @@ namespace PersonalDictionaryProject.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            await _userManager.AddToRoleAsync(user, "User");
+
+            return Ok(new { message = "User registered successfully!" });
+        }
+        [HttpPost("forgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+
+            var user = _context.Users.FirstOrDefault(u => u.UserName == model.UserName && u.Email == model.Email);
+            if (user == null)
+            {
+                return BadRequest(new { message = "Invalid username or email" });
+            }
+            
+            string newPassword = GenerateRandomString(8);
+            var emailBody = $"Mật khẩu mới của bạn là: ${newPassword}";
+            bool emailSent = await SendEmailAsync(user.Email, "Reset Password", emailBody);
+            if (!emailSent)
+                return StatusCode(500, new { message = "Failed to send email" });
+            var result = await _userManager.ChangePasswordAsync(user, newPassword, newPassword);
+            if (!result.Succeeded) return BadRequest(result.Errors);
 
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
@@ -91,6 +124,66 @@ namespace PersonalDictionaryProject.Controllers
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+        public static string GenerateRandomString(int length)
+        {
+            const string Uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const string Lowercase = "abcdefghijklmnopqrstuvwxyz";
+            const string Digits = "0123456789";
+            const string SpecialChars = "!@#$%^&*()-_=+";
+
+            RandomNumberGenerator rng = RandomNumberGenerator.Create();
+
+            char GetRandomChar(string chars)
+            {
+                byte[] randomByte = new byte[1];
+                rng.GetBytes(randomByte);
+                return chars[randomByte[0] % chars.Length];
+            }
+
+            StringBuilder password = new StringBuilder();
+            password.Append(GetRandomChar(Uppercase));
+            password.Append(GetRandomChar(Lowercase));
+            password.Append(GetRandomChar(Digits));
+            password.Append(GetRandomChar(SpecialChars));
+
+            string allChars = Uppercase + Lowercase + Digits + SpecialChars;
+            while (password.Length < length)
+            {
+                password.Append(GetRandomChar(allChars));
+            }
+
+            return new string(password.ToString().ToCharArray().OrderBy(c => Guid.NewGuid()).ToArray());
+        }
+        private async Task<bool> SendEmailAsync(string toEmail, string subject, string body)
+        {
+            try
+            {
+                var smtpClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential("longdqhe173507@fpt.edu.vn", "Khonho@123"),
+                    EnableSsl = true,
+                };
+
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress("longdqhe173507@fpt.edu.vn"),
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = true,
+                };
+
+                mailMessage.To.Add(toEmail);
+                await smtpClient.SendMailAsync(mailMessage);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error sending email: " + ex.Message);
+                return false;
+            }
         }
     }
 }
