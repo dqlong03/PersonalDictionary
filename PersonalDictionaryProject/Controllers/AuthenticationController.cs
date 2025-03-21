@@ -66,11 +66,12 @@ namespace PersonalDictionaryProject.Controllers
             }
             
             string newPassword = GenerateRandomString(8);
-            var emailBody = $"Mật khẩu mới của bạn là: ${newPassword}";
+            var emailBody = $"Mật khẩu mới của bạn là: {newPassword}";
             bool emailSent = await SendEmailAsync(user.Email, "Reset Password", emailBody);
             if (!emailSent)
                 return StatusCode(500, new { message = "Failed to send email" });
-            var result = await _userManager.ChangePasswordAsync(user, newPassword, newPassword);
+            user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, newPassword);
+            var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded) return BadRequest(result.Errors);
 
             if (!result.Succeeded)
@@ -78,7 +79,7 @@ namespace PersonalDictionaryProject.Controllers
 
             await _userManager.AddToRoleAsync(user, "User");
 
-            return Ok(new { message = "User registered successfully!" });
+            return Ok(new { message = "Successfully!" });
         }
 
         [HttpPost("login")]
@@ -162,13 +163,13 @@ namespace PersonalDictionaryProject.Controllers
                 var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("longdqhe173507@fpt.edu.vn", "Khonho@123"),
+                    Credentials = new NetworkCredential("personaldictionaryclone@gmail.com", "nhxq meei bpez bbux"),
                     EnableSsl = true,
                 };
 
                 var mailMessage = new MailMessage
                 {
-                    From = new MailAddress("longdqhe173507@fpt.edu.vn"),
+                    From = new MailAddress("personaldictionaryclone@gmail.com"),
                     Subject = subject,
                     Body = body,
                     IsBodyHtml = true,
