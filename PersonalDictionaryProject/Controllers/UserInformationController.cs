@@ -169,7 +169,8 @@ namespace PersonalDictionaryProject.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(string id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteUser([FromBody]string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null) return NotFound("User not found");
