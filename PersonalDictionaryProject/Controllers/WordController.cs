@@ -135,6 +135,51 @@ namespace PersonalDictionaryProject.Controllers
 
             return CreatedAtAction(nameof(GetUserWords), new { id = newWord.Id }, word);
         }
+        [HttpPost("admin/bulk")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AdminAddWordsBulk([FromBody] List<WordDTO> words)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            if (words == null || words.Count == 0)
+            {
+                return BadRequest("No words to add.");
+            }
+
+            var newWords = new List<Word>();
+
+            foreach (var word in words)
+            {
+                if (string.IsNullOrWhiteSpace(word.WordText) ||
+                    string.IsNullOrWhiteSpace(word.Definition) ||
+                    string.IsNullOrWhiteSpace(word.Example) ||
+                    string.IsNullOrWhiteSpace(word.Language))
+                {
+                    return BadRequest("Please fill in all fields for every word.");
+                }
+
+                Word newWord = new Word
+                {
+                    Id = 0,
+                    WordText = word.WordText,
+                    Definition = word.Definition,
+                    Example = word.Example,
+                    Language = word.Language,
+                    UserId = userId,
+                    IsPublic = true,
+                    IsApproved = true
+                };
+
+                newWords.Add(newWord);
+            }
+
+            await _context.Words.AddRangeAsync(newWords);
+            await _context.SaveChangesAsync();
+
+            return Created(nameof(AdminAddWordsBulk), $"{newWords.Count} words added successfully.");
+        }
+
         [HttpGet("search")]
         public async Task<IActionResult> SearchWords([FromQuery] string? query, [FromQuery] string? status)
         {
@@ -282,5 +327,55 @@ namespace PersonalDictionaryProject.Controllers
             await _context.SaveChangesAsync();
             return Ok("Word deleted");
         }
+
+        [HttpGet("paged")]
+        public async Task<IActionResult> GetPagedWords(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        [FromQuery] string? query = null,
+        [FromQuery] string? status = null)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+            var wordsQuery = _context.Words
+                .Where(w => w.UserId == userId)
+                .AsQueryable();
+
+            // Lọc theo từ khóa
+            if (!string.IsNullOrEmpty(query))
+            {
+                wordsQuery = wordsQuery.Where(w => w.WordText.Contains(query) || w.Definition.Contains(query));
+            }
+
+            // Lọc theo trạng thái (Public/Private/Approved/Pending)
+            if (!string.IsNullOrEmpty(status))
+            {
+                status = status.ToLower();
+                if (status == "public") wordsQuery = wordsQuery.Where(w => w.IsPublic);
+                else if (status == "private") wordsQuery = wordsQuery.Where(w => !w.IsPublic);
+                else if (status == "approved") wordsQuery = wordsQuery.Where(w => w.IsApproved);
+                else if (status == "pending") wordsQuery = wordsQuery.Where(w => !w.IsApproved);
+            }
+
+            var totalItems = await wordsQuery.CountAsync();
+            var words = await wordsQuery
+                .OrderBy(w => w.WordText)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var response = new
+            {
+                TotalItems = totalItems,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalPages = (int)Math.Ceiling((double)totalItems / pageSize),
+                Words = words
+            };
+
+            return Ok(response);
+        }
+
     }
 }
