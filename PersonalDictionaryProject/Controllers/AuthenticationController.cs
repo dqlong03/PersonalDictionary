@@ -35,6 +35,11 @@ namespace PersonalDictionaryProject.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            var checkEmail = _context.Users.FirstOrDefault(u => u.Email == model.Email);
+            if (checkEmail != null)
+            {
+                return BadRequest(new { message = "Email already exists" });
+            }
 
             var user = new User
             {
