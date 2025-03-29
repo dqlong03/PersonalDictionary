@@ -301,6 +301,7 @@ namespace PersonalDictionaryProject.Controllers
             word.Language = model.Language;
             word.IsPublic = true;
             word.IsApproved = true;
+            word.IsApprovedYet = true;
             await _context.SaveChangesAsync();
             return Ok("Word submitted for approval");
         }
