@@ -260,14 +260,30 @@ namespace PersonalDictionaryProject.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var word = await _context.Words.FirstOrDefaultAsync(w => w.Id == model.Id && w.UserId == userId);
-
+            var check = false;
+            if(model.IsPublic == true)
+            {
+                var wordcheck = await _context.Words.FirstOrDefaultAsync(w => w.Id == model.Id && w.UserId == userId);
+                if (wordcheck == null) return NotFound();
+                if (wordcheck.IsApprovedYet == true)
+                {
+                    check = true;
+                }
+            }
             if (word == null) return NotFound();
             word.WordText = model.WordText;
             word.Definition = model.Definition;
             word.Example = model.Example;
             word.Language = model.Language;
             word.IsPublic = model.IsPublic;
-            word.IsApproved = false;
+            if(check == true)
+            {
+                word.IsApproved = true;
+            }
+            else
+            {
+                word.IsApproved = false;
+            }
             await _context.SaveChangesAsync();
             return Ok("Word submitted for approval");
         }

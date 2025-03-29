@@ -11,6 +11,7 @@
         public bool IsApproved { get; set; } 
         public string UserId { get; set; }
         public User User { get; set; }
+        public bool ? IsApprovedYet { get; set; }
     }
 
 }
