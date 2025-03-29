@@ -292,7 +292,7 @@ namespace PersonalDictionaryProject.Controllers
         public async Task<IActionResult> AdminUploadWord([FromBody] WordDTO model)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var word = await _context.Words.FirstOrDefaultAsync(w => w.Id == model.Id && w.UserId == userId);
+            var word = await _context.Words.FirstOrDefaultAsync(w => w.Id == model.Id);
 
             if (word == null) return NotFound();
             word.WordText = model.WordText;
@@ -319,6 +319,7 @@ namespace PersonalDictionaryProject.Controllers
             word.Language = model.Language;
             word.IsPublic = false;
             word.IsApproved = false;
+            word.IsApprovedYet = false;
             await _context.SaveChangesAsync();
             return Ok("Word submitted for approval");
         }
